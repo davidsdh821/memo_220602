@@ -29,11 +29,11 @@ public class TestController {
 	return map;
 	}
 	
-	
+	//http://localhost/test/3
 	@RequestMapping("/test/3")
 	public String test3() {
 		
-		return "test/test";
+		return "template/layout";
 	}
 	
 }

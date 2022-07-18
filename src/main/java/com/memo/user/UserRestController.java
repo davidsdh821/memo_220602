@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.memo.user.bo.UserBO;
 import com.memo.user.model.User;
 
+//데이터만 내려주는 api
 @RequestMapping("/user")
 @RestController
 public class UserRestController {

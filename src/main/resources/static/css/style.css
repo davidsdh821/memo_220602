@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+
+
+header {
+	background-color: #D3D3D3; 
+	
+	height: 100px;
+	
+}
+.content {
+	min-height: 500px;
+	
+	
+}
+
+footer {
+	background-color: #D3D3D3; 
+	height: 100px;	
+	
+	text-align: center;
+	
+}
