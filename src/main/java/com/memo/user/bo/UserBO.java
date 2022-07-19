@@ -27,6 +27,13 @@ public class UserBO {
 		return userDAO.existLoginId(loginId);
 	}
 	
+	public void addUser(String loginId, String password, String name, String email) { //굳이 encrpty를 할 필요가 없다
+		
+		userDAO.insertUser(loginId, password, name, email);
+	}
+ 	
+	
+	
 	
 	
 }
