@@ -13,4 +13,17 @@
 	</select>
 	
 	
+	<select id="existLoginId" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+	
+	
+	
+	</select>
+	
+	
 </mapper> 

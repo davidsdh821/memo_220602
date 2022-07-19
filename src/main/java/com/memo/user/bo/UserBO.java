@@ -21,4 +21,12 @@ public class UserBO {
 		return userDAO.SelectUserList();
 	}
 	
+	public boolean existLoginId(String loginId) { //중복되는지 안되는지만 확인하면 되기때문에 boolean으로 받으면 된다
+		
+		
+		return userDAO.existLoginId(loginId);
+	}
+	
+	
+	
 }

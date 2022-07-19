@@ -11,5 +11,5 @@ public interface UserDAO {
 
 	public List<User> SelectUserList();
 	
-	
+	public boolean existLoginId(String loginId); //sql문의 resulttype가 boolean이어도 된다.
 }
