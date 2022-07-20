@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +45,14 @@ public class UserRestController {
 		
 		return result;	
 		}
+	/**
+	 * 회원가입 API
+	 * @param loginId
+	 * @param password
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	
 	@PostMapping("/sign_up")
 	public Map<String, Object> signup(
@@ -65,5 +76,45 @@ public class UserRestController {
 		return result;
 	
 	}
+	
+	@PostMapping("/sign_in")
+	public Map<String, Object> signIn(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password,
+			HttpServletRequest request //서블릿에 세션 저장하기
+			) {
+		//서블릿에 세션을 저장하면 서버에 해당 유저의 로그인 기록이 저장된다.
+		
+		//비밀 번호 해싱
+		String encryptPassword = EncryptUtils.md5(password);
+		
+		//loginId, 해싱 비번=> db select => 존재 유무
+		User user = userBO.getUserByLoginIdPassword(loginId, encryptPassword);
+		
+		//로그인 성공시 세션에 정보를 담는다
+		//실패 하면 실패 응답
+		
+		//로그인 성공 유무 resposne
+		Map<String, Object> result = new HashMap<>();
+		if(user != null) { //성공
+			//세션에 정보를 담는다
+			//너무 난발하여 저장하지말고 필요한 데이터만 저장하자
+			HttpSession session = request.getSession();
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("userLoginId", user.getLoginId());
+			session.setAttribute("userName", user.getName());			
+			result.put("result", "success");
+		} else {
+			
+			result.put("errorMessage", "존재하지 않는 사용자입니다.");
+			
+		} //실패
+		
+		
+		
+		return result;
+	}
+	
+	
 	 
 }

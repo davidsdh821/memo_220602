@@ -9,10 +9,11 @@
 	</div>
 	
 	<div class="login-info">
-		<%-- session 정보가 있을 때만 출력 --%>
+		
+		<%-- session에 정보가 있을 때, 로그인 했을때 세션에 데이터를 넣어줬다.--%>
 		<c:if test="${not empty userName}">
 		<div class="mt-5 mr-4">
-			<span class="text-white">마론달님 안녕하세요</span>
+			<span class="text-white">${userName}님 안녕하세요</span>
 			<a href="/user/sign_out" class="ml-2 text-white font-weight-bold">로그아웃</a>
 		</div>
 		</c:if>

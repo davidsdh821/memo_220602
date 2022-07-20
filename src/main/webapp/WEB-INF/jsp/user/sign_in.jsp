@@ -1,17 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%-- 참고: class container는 맨 바깥 레이아웃 잡을 때만 사용한다. --%>
-<%-- d-flex로 하위 요소를 유동적으로 배치한다. --%>
-<%-- justify-content-center로 d-flex 적용된 하위 요소를 가운데에 배치한다. --%>
+
 <div class="d-flex justify-content-center">
 	<div class="login-box">
 		<h1 class="mb-4">로그인</h1>
 		
-		<%-- 키보드 Enter키로 로그인이 될 수 있도록 form 태그를 만들어준다.(submit 타입의 버튼이 동작됨) --%>
+		<%-- 폼을 사용하는 이유는 enter 키를 누를 때도 자동으로 이동 될 수 있기 때문이다.--%>
 		<form id="loginForm" action="/user/sign_in" method="post">
 			<div class="input-group mb-3">
-				<%-- input-group-prepend: input box 앞에 ID 부분을 회색으로 붙인다. --%>
+
 				<div class="input-group-prepend">
 					<span class="input-group-text">ID</span>
 				</div>
@@ -24,45 +22,52 @@
 				</div>
 				<input type="password" class="form-control" id="password" name="password">
 			</div>
-			
-			<%-- btn-block: 로그인 박스 영역에 버튼을 가득 채운다. --%>
-			<a class="btn btn-block btn-dark" href="/user/sign_up_view">회원가입</a>
 			<input type="submit" class="btn btn-block btn-primary" value="로그인">
+			<a class="btn btn-block btn-dark" href="/user/sign_up_view">회원가입</a>
+			
 		</form>
 	</div>
 </div>
 
 <script>
 $(document).ready(function() {
-	$('#loginForm').submit(function(e) {
-		e.preventDefault(); // submit 자동 수행 중단
+	$('#loginForm').on('submit', function(e) {
+		e.preventDefault(); //서브밋 중단
 		
-		// validation
-		var loginId = $('#loginId').val().trim();
-		if (loginId == '') {
-			alert("아이디를 입력해주세요");
-			return;
+		let loginId = $('input[name=loginId]').val().trim();
+		if(loginId.length < 1) {
+			alert('아이디를 입력하세요');
+			return false;
 		}
 		
-		var password = $('#password').val();
-		if (password == '') {
-			alert("비밀번호를 입력해주세요.");
-			return;
+		let password = $('#password').val();
+		if(loginId.length == "") {
+			alert('비밀번호를 입력하세요');
+			return false;
 		}
 		
-		
-		// AJAX로 submit
-		var url = $(this).attr("action");
-		var data = $(this).serialize();  // form의 name 속성으로 data를 구성한다.
-		
-		$.post(url, data)
+		//ajax호출
+		let url = $(this).attr("action");
+		let params = $(this).serialize(); //form태그에 있는 nama 값들을 qurey스트링으로 구성
+		$.post(url, params) //위에 저장한 id와 password 함수를 써도 된다
 		.done(function(data) {
-			if (data.result == "success") {
-				location.href="/post/post_list_view"; 
+			if(data.result =="success") {
+				alert('성공');
+				//로그인이 성공하면 글 목록으로 이동
+				location.herf = "/post/post_list_view";
+				
 			} else {
-				alert("로그인에 실패했습니다. 다시 시도해주세요.");
+				alert(data.errorMessage);
 			}
-		}); 
-	}); 
+		});
+		
+		
+	});
+	
+	
+	
+	
+	
+	
 });	
 </script>
