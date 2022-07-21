@@ -1,6 +1,6 @@
 package com.memo.user;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/sign_out")
-	public String signOut(HttpServletRequest session) {
+	public String signOut(HttpSession session) {
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
 		session.removeAttribute("userName");
