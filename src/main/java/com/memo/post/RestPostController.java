@@ -1,19 +1,28 @@
 package com.memo.post;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.memo.post.bo.PostBO;
+import com.memo.post.model.Post;
+
 @RequestMapping("/post")
 @RestController
 public class RestPostController {
+	@Autowired
+	private PostBO postBO;
 	
 	
 	@PostMapping("/create")
@@ -23,9 +32,6 @@ public class RestPostController {
 			@RequestParam(value="file", required = false) MultipartFile file, //필수가 아닐때
 			HttpSession session
 			) {
-		
-	
-		
 		
 		
 		//서버에 저장
@@ -48,9 +54,16 @@ public class RestPostController {
 		
 		
 		//글쓰기 db insert
+		postBO.addPost(userId, userLoginId, subject, content, file);
+		
 		
 		
 		return result;
 	}
+	
+
+	
+	
+	
 	
 }

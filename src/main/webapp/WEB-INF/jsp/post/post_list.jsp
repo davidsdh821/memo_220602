@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+ <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <div class="d-flex justify-content-center">
 	<div class="w-50">
 		<h1>글목록</h1>
@@ -14,12 +18,14 @@
 			</thead>
 			
 			<tbody>
+			<c:forEach var ="result" items="${result}">
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td>${result.id}</td>
+					<td>${result.subject}</td>
+					<td><fmt:formatDate value="${result.createdAt}" pattern="yyyy년 MM월 dd일" var="date1"/>${date1}</td>
+					<td><fmt:formatDate value="${result.updatedAt}" pattern="yyyy년 MM월 dd일" var="date2"/>${date2}</td>
 				</tr>
+			</c:forEach>	
 			</tbody>
 		</table>
 			

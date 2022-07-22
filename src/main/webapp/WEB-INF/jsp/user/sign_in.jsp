@@ -54,7 +54,7 @@ $(document).ready(function() {
 			if(data.result =="success") {
 				alert('성공');
 				//로그인이 성공하면 글 목록으로 이동
-				location.herf = "/post/post_list_view";
+				location.href = "/post/post_list_view";
 				
 			} else {
 				alert(data.errorMessage);
