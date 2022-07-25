@@ -37,6 +37,25 @@
 	
 	</select>
 	
+	<select id="selectPostbyId" resultType="com.memo.post.model.Post">
+		SELECT 
+			`id`
+			,`userId`
+			,`subject`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE 
+			`id` = #{postId}		
+			
+	
+	
+	
+	</select>
+	
 
 
 

@@ -21,7 +21,9 @@
 			<c:forEach var ="result" items="${result}">
 				<tr>
 					<td>${result.id}</td>
-					<td>${result.subject}</td>
+					<td>
+					<a href="/post/post_detail_view?postId=${result.id}">${result.subject}</a>
+					</td>
 					<td><fmt:formatDate value="${result.createdAt}" pattern="yyyy년 MM월 dd일" var="date1"/>${date1}</td>
 					<td><fmt:formatDate value="${result.updatedAt}" pattern="yyyy년 MM월 dd일" var="date2"/>${date2}</td>
 				</tr>

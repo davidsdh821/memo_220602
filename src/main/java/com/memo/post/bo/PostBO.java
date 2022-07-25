@@ -40,6 +40,11 @@ public class PostBO {
 		return postDAO.selectPostList();
 	}
 	
+	//게시판 글
+	public Post getPostbyId(int postId) {
+		
+		return postDAO.selectPostbyId(postId);
+	}
 	
 	
 }
