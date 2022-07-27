@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,14 @@ public class RestPostController {
 	@Autowired
 	private PostBO postBO;
 	
-	
+	/**
+	 * 메모 글쓰기 API
+	 * @param subject
+	 * @param content
+	 * @param file
+	 * @param session
+	 * @return
+	 */
 	@PostMapping("/create")
 	public Map<String, Object> create(
 			@RequestParam("subject") String subject,
@@ -56,6 +64,33 @@ public class RestPostController {
 		//글쓰기 db insert
 		postBO.addPost(userId, userLoginId, subject, content, file);
 		
+		
+		
+		return result;
+	}
+	
+	@PutMapping("/update")
+	public Map<String, Object> update(
+			@RequestParam("postId") int postId,
+			@RequestParam("subject") String subject,
+			@RequestParam("content") String content,
+			@RequestParam(value ="file", required = false) MultipartFile file,
+			HttpSession session ) {
+			
+			//로그인 된 사람만 도달했는지 검사 - 나중
+			String userLoginId = (String)session.getAttribute("userLoginId"); //일부로 에러를 유도한다.(로그인이 풀려있으면 오류가 나겠끔 만든다.)
+			int userId = (int)session.getAttribute("userId");
+			
+			//db insert
+			int row = postBO.updatePost(userId, userLoginId, postId, subject, content, file);
+			
+			
+			//성공여부
+			Map<String, Object> result = new HashMap<>();
+			result.put("result", "success");
+			if(row < 1) {
+				result.put("result", "fail");
+			}
 		
 		
 		return result;

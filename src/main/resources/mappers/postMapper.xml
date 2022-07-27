@@ -56,6 +56,22 @@
 	
 	</select>
 	
+	<update id="updatePostByPostIdAndUserId" parameterType="map">
+		UPDATE
+			`post`
+		SET
+			`subject` = #{subject}
+			,`content` = #{content}
+			<if test="imagePath != null"> <!-- imagePath가 있을때만 수정, jstl문법이랑 비슷하지만 다르다 -->
+				,`imagePath` = #{imagePath}
+			</if>
+			,`updatedAt` = NOW()
+		WHERE
+			`id` = #{postId}
+			AND `userId` = #{userId}
+	
+	
+	</update>
 
 
 

@@ -1,6 +1,7 @@
 package com.memo.common;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,6 +61,29 @@ public class FileManagerService {
 		return null; //파일이 리턴되면 안되기 때문에 null
 	}
 	
+	public void deleteFile(String imagePath) throws IOException {
+		// /images/mrhong_1658478158330/default.jpg
+		// C:\\SDH\\spring_project\\memo\\workspace\\images/ /images/mrhong_1658478158330/default.jpg
+		// 전체 경로와 imagePath간의 중복되는 /images/ 문자열을 제거한 후 실제 저장 경로를 찾는다
+		//imagePath의 /images/를 지운다
+		imagePath.replace("/images/", ""); //제거함
+		
+		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath);
+		//폴더안의 사진 제거 후, 폴더 제거
+		if(Files.exists(path)) { //이미지 파일이 있으면 삭제, == true를 붙여도 된다
+			Files.delete(path);
+			
+		
+			
+		}
+		//디렉토리를 삭제
+		path = path.getParent(); //주소의 부모(폴더)를 path로 지정
+		if(Files.exists(path)) {
+			Files.delete(path);
+		}
+		
+		
+	}
 	
 	
 }
