@@ -22,7 +22,7 @@
 		</div>
 		</c:if>
 		<div class="d-flex justify-content-between">
-		<button id="postDeleteBtn" type="button" class="btn btn-secondary">삭제</button>
+		<button id="postDeleteBtn" type="button" class="btn btn-secondary" data-post-id="${post.id}">삭제</button>
 			<div>
 				<button id="postListBtn" type="button" class="btn btn-primary">목록</button>
 				<button id="saveBtn" type="button" class="btn btn-pirmary" data-post-id="${post.id}">저장</button>
@@ -74,7 +74,7 @@
 			formData.append("postId", postId); 
 			formData.append("subject", subject); 
 			formData.append("content", content); 
-			formData.append("file", $('#file')[0].files[1]);
+			formData.append("file", $('#file')[0].files[0]);
 			
 			//ajax 
 			//외울 수 없기 때문에 검색하면서 찾아보자
@@ -104,7 +104,31 @@
 		});
 	
 		
-		
+		$("#postDeleteBtn").on('click', function() {
+			let postId = $(this).data('post-id');
+			//alert(postId)
+			
+			$.ajax({
+				type:"DELETE"
+				,url: "/post/delete"
+				,data: {"postId" : postId}
+			
+				,success: function(data) {
+					if(data.result == "success") {
+						alert("삭제 성공")
+						location.href = "/post/post_list_view"
+					} else {
+						alert(data.errorMessage);
+					}
+				
+				}
+				, error: function(e) {
+					alert("메모를 삭제하는데 실패했습니다")
+				}
+				
+			});
+			
+		});
 		
 		
 		

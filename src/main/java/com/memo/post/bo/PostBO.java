@@ -100,6 +100,36 @@ public class PostBO {
 		
 	}
 	
+	public void deletePost(int postId, int userId) {
+		//사진도 같이 지워줘야한다.
+		//용량을 꽤 차지하기때문에 잘 지워줘야한다
+		
+		//삭제전 게시글을 먼저 가져와 본다(imagePath가 있을 수 있기 때문에)
+		Post post = getPostbyId(postId); //NPE가 올 수도 있기 때문에 확인해줘야 한다
+		if(post == null) {
+			logger.error("[delete post] 삭제할 게시글이 존재하지 않습니다. psotId{}", postId); //이런식으로 계속 확인을 해줘야한다. 비정상적인 루트로 이곳에 들어 올 수 있기 때문이다
+			return;
+		}
+		
+		//imagePath가 있으면 이미지(파일) 삭제 처리
+		if(post.getImagePath() != null) {
+			try {
+				fileManager.deleteFile(post.getImagePath());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.error("[delete post] 이미지 삭제 실패. postId{}, path{}", postId, post.getImagePath());// 원래 e.print trace였지만 logger로 바꿨다
+			}
+		}
+		
+		
+		
+		
+		//db 행삭제
+		postDAO.deletePost(postId, userId);
+		
+	}
+	 
+	
 	
 	
 }
