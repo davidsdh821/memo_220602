@@ -1,15 +1,22 @@
 package com.memo.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.memo.common.FileManagerService;
+import com.memo.interceptor.Permissioninterceoptor;
 
 //이미지 주소 매핑
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer{
 	//웹의 이미지주소와 실제 파일 경로를 매핑해주는 설정(실제 파일의 경로를 웹주소로 변환시키는 과정이라 생각하면 편하다)
+	@Autowired
+	private Permissioninterceoptor permissioninterceoptor;
+	
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.
@@ -19,6 +26,13 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		
 	}
 	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		
+		registry.addInterceptor(permissioninterceoptor)
+		.addPathPatterns("/**") // /** 아래 패스까지 모두확인
+		.excludePathPatterns("/error", "/static/**", "/user/sign_out"); //예외(인터셉터 안타게 설정) 
+	}
 	
 	
 }
